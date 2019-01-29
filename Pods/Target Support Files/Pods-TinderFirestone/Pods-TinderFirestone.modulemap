@@ -1,0 +1,6 @@
+framework module Pods_TinderFirestone {
+  umbrella header "Pods-TinderFirestone-umbrella.h"
+
+  export *
+  module * { export * }
+}
