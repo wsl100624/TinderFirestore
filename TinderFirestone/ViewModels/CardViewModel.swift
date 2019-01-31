@@ -22,9 +22,20 @@ class CardViewModel {
     let textAlignment: NSTextAlignment
     
     init(imageNames: [String], attributedText: NSAttributedString, textAlignment: NSTextAlignment) {
-        self.imageURLs = imageNames
+        self.imageURLs = CardViewModel.deleteEmptyImageURLs(imageNames: imageNames)
         self.attributedText = attributedText
         self.textAlignment = textAlignment
+    }
+    
+    static func deleteEmptyImageURLs(imageNames: [String]) -> [String] {
+        var newImageURLs = [String]()
+        
+        imageNames.forEach { (url) in
+            if url != "" {
+                newImageURLs.append(url)
+            }
+        }
+        return newImageURLs
     }
     
     // MARK: Reactive Programming

@@ -115,7 +115,6 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     }
     
     @objc func handleSelectPhoto(button: UIButton) {
-        print("selector photo with button: ", button)
         let imagePicker = CustomImagePickerController()
         imagePicker.delegate = self
         imagePicker.imageButton = button
@@ -262,8 +261,8 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
             cell.textField.placeholder = "Age"
             if let age = user?.age {
                 cell.textField.text = String(age)
-                cell.textField.addTarget(self, action: #selector(handleAgeChange), for: .editingChanged)
             }
+            cell.textField.addTarget(self, action: #selector(handleAgeChange), for: .editingChanged)
         default:
             cell.textField.placeholder = "Bio"
         }
@@ -288,7 +287,8 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     }
     
     @objc fileprivate func handleAgeChange(textField: UITextField) {
-        self.user?.age = Int(textField.text ?? "-1")
+        guard let age = textField.text else { return }
+        self.user?.age = Int(age)
     }
     
     fileprivate func setupNavigationItems() {
@@ -323,8 +323,8 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
             "imageURL1" : user?.imageURL1 ?? "",
             "imageURL2" : user?.imageURL2 ?? "",
             "imageURL3" : user?.imageURL3 ?? "",
-            "minSeekingAge" : user?.minSeekingAge ?? -1,
-            "maxSeekingAge" : user?.maxSeekingAge ?? -1
+            "minSeekingAge" : user?.minSeekingAge ?? 10,
+            "maxSeekingAge" : user?.maxSeekingAge ?? 100
         ]
         
         let hud = JGProgressHUD(style: .dark)

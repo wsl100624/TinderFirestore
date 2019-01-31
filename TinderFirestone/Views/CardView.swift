@@ -28,12 +28,14 @@ class CardView: UIView {
             informationLabel.textAlignment = cardViewModel.textAlignment
             
             if cardViewModel.imageURLs.count > 1 {
-                (0..<cardViewModel.imageURLs.count).forEach { (_) in
-                    let barView = UIView()
-                    barView.layer.cornerRadius = 2
-                    barView.backgroundColor = barDeselectedColor
-                    barStackView.addArrangedSubview(barView)
-                    barStackView.arrangedSubviews.first?.backgroundColor = .white
+                (0..<cardViewModel.imageURLs.count).forEach { (index) in
+                    if cardViewModel.imageURLs[index] != "" {
+                        let barView = UIView()
+                        barView.layer.cornerRadius = 2
+                        barView.backgroundColor = barDeselectedColor
+                        barStackView.addArrangedSubview(barView)
+                        barStackView.arrangedSubviews.first?.backgroundColor = .white
+                    }
                 }
             } else {
                 barStackView.isHidden = true
@@ -45,11 +47,10 @@ class CardView: UIView {
     
     fileprivate func  setupImageIndexObserver() {
         cardViewModel.imageIndexObserver = { [unowned self] (index, imageURL) in
-                                            // [unowned self] is to prevent retain cycle
+            // [unowned self] is to prevent retain cycle
             guard self.cardViewModel.imageURLs.count > 1 else { return }
             
             guard let imageURL = imageURL else { return }
-            
             if let url = URL(string: imageURL) {
                 self.imageView.sd_setImage(with: url)
             }
@@ -61,7 +62,7 @@ class CardView: UIView {
             self.barStackView.arrangedSubviews[index].backgroundColor = .white
         }
     }
-    
+        
     // Configurations
     fileprivate let threshold: CGFloat = 100
     fileprivate let barDeselectedColor = UIColor(white: 0, alpha: 0.1)
